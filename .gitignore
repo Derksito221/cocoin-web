@@ -1,0 +1,35 @@
+# Dependencias
+node_modules/
+package-lock.json
+yarn.lock
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build
+dist/
+build/
+.next/
+
+# Temporal
+*.tmp
+.cache/
+
+# Credenciales (si agregas archivos de configuración)
+.env
+.env.local
+config.js
+
