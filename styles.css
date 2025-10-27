@@ -260,6 +260,47 @@ a {
     box-shadow: var(--shadow-lg);
 }
 
+.btn--cta {
+    background: linear-gradient(135deg, #FFD700, var(--color-secondary));
+    color: var(--color-dark);
+    font-weight: 800;
+    font-size: 1.1rem;
+    padding: 1.2rem 2.5rem;
+    box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn--cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.btn--cta:hover::before {
+    left: 100%;
+}
+
+.btn--cta:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 32px rgba(255, 215, 0, 0.6);
+    background: linear-gradient(135deg, #FFC107, #FFD700);
+}
+
+/* Contenedor de botones del hero */
+.hero__buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
 /* ================================
    HERO SECTION
    ================================ */
@@ -866,6 +907,11 @@ a {
         font-size: 1rem;
     }
 
+    .hero__buttons {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
     .section {
         padding: var(--spacing-lg) 0;
     }
@@ -893,6 +939,15 @@ a {
     .btn {
         padding: 0.875rem 1.5rem;
         font-size: 0.875rem;
+    }
+
+    .btn--cta {
+        font-size: 0.9rem;
+        padding: 1rem 2rem;
+    }
+
+    .hero__buttons {
+        gap: var(--spacing-xs);
     }
 }
 

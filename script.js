@@ -120,21 +120,20 @@ if (contactForm) {
         const email = formData.get('email');
         const message = formData.get('message');
 
-        // Aquí puedes agregar la lógica para enviar el formulario
-        // Por ejemplo, usando EmailJS, Formspree, o tu propio backend
+        // Crear el enlace mailto con el correo y el mensaje
+        const subject = encodeURIComponent('Mensaje desde COCOIN Web - ' + name);
+        const body = encodeURIComponent('Nombre: ' + name + '\n\nEmail: ' + email + '\n\nMensaje:\n' + message);
+        const mailtoLink = `mailto:duglita00@hotmail.com?subject=${subject}&body=${body}`;
         
-        // Simulación de envío
-        console.log('Mensaje enviado:', {
-            name,
-            email,
-            message
-        });
-
+        // Abrir el cliente de correo
+        window.location.href = mailtoLink;
+        
         // Mostrar mensaje de confirmación
-        alert('¡Gracias por tu mensaje! Te contactaremos pronto.');
-        
-        // Limpiar formulario
-        contactForm.reset();
+        setTimeout(() => {
+            alert('¡Gracias por tu mensaje! Tu cliente de correo se abrirá para enviar el mensaje.');
+            // Limpiar formulario
+            contactForm.reset();
+        }, 500);
     });
 }
 
