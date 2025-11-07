@@ -1,0 +1,12 @@
+# Copia este archivo como .env.local y completa con tus credenciales de Supabase
+
+# Supabase Configuration
+# Obtén estos valores desde: https://app.supabase.com/project/_/settings/api
+
+NEXT_PUBLIC_SUPABASE_URL=https://tu-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key-aqui
+
+# Ejemplo:
+# NEXT_PUBLIC_SUPABASE_URL=https://abcdefghijklmnop.supabase.co
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiY2RlZmdoaWprbG1ub3AiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTYxNjIzOTAyMiwiZXhwIjoxOTMxODE1MDIyfQ.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
