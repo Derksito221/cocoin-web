@@ -38,3 +38,9 @@ desktop.ini
 # Temporary
 *.tmp
 .cache/
+
+# Old static files (migrated to Next.js)
+*.old
+index.html.old
+script.js.old
+styles.css.old
