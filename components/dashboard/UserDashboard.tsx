@@ -3,7 +3,10 @@
 import { useEffect, useState } from 'react'
 import { createSupabaseClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
-// Image no necesario aquí
+import MiRol from './MiRol'
+import ClasesTomadas from './ClasesTomadas'
+import RetosActivos from './RetosActivos'
+import MiCantoDiario from './MiCantoDiario'
 
 interface User {
   email: string
@@ -49,7 +52,8 @@ export default function UserDashboard() {
   if (loading) {
     return (
       <div className="dashboard-loading">
-        <p>Cargando...</p>
+        <div className="loading-spinner">🐔</div>
+        <p>Cargando tu corral...</p>
       </div>
     )
   }
@@ -62,70 +66,49 @@ export default function UserDashboard() {
   const role = user.user_metadata?.role || 'Gallina del corral'
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">
-        <div className="dashboard-welcome">
-          <h1>Bienvenido al corral, donde cada grano tiene propósito</h1>
-          <p className="dashboard-subtitle">El canto justo comienza aquí</p>
+    <div className="dashboard-new">
+      {/* Header del Dashboard */}
+      <div className="dashboard-hero">
+        <div className="dashboard-hero-content">
+          <h1 className="dashboard-hero-title">
+            <span className="dashboard-hero-icon">🐔</span>
+            El canto justo comienza aquí
+          </h1>
+          <p className="dashboard-hero-subtitle">
+            Bienvenido al corral, {username}
+          </p>
         </div>
       </div>
 
-      <div className="dashboard-content">
-        <div className="dashboard-card">
-          <div className="dashboard-card-header">
-            <h2>Tu Perfil</h2>
+      {/* Contenido Principal */}
+      <div className="dashboard-container">
+        {/* Sección: Mi Rol en el Corral */}
+        <MiRol username={username} email={user.email} role={role} />
+
+        {/* Grid de Secciones */}
+        <div className="dashboard-grid">
+          {/* Clases Tomadas */}
+          <div className="dashboard-grid-item">
+            <ClasesTomadas />
           </div>
-          <div className="dashboard-card-body">
-            <div className="profile-info">
-              <div className="profile-avatar">
-                <span>{username.charAt(0).toUpperCase()}</span>
-              </div>
-              <div className="profile-details">
-                <h3>{username}</h3>
-                <p className="profile-email">{user.email}</p>
-                <div className="profile-role">
-                  <span className="role-badge">{role}</span>
-                </div>
-              </div>
-            </div>
+
+          {/* Retos Activos */}
+          <div className="dashboard-grid-item">
+            <RetosActivos />
           </div>
         </div>
 
-        <div className="dashboard-card">
-          <div className="dashboard-card-header">
-            <h2>Recompensas y Logros</h2>
-          </div>
-          <div className="dashboard-card-body">
-            <div className="rewards-placeholder">
-              <p>🎁 Próximamente: Tus recompensas y logros aparecerán aquí</p>
-              <p className="rewards-hint">
-                Completa clases, participa en retos y gana tokens $COCO
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Mi Canto Diario */}
+        <MiCantoDiario userId={user.id} />
 
-        <div className="dashboard-card">
-          <div className="dashboard-card-header">
-            <h2>Clases y Contenido</h2>
-          </div>
-          <div className="dashboard-card-body">
-            <div className="content-placeholder">
-              <p>📚 Próximamente: Acceso a contenido educativo exclusivo</p>
-              <p className="content-hint">
-                Aprende sobre blockchain, NFTs, staking y más
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="dashboard-actions">
-          <button onClick={handleLogout} className="btn btn--secondary">
-            Cerrar Sesión
+        {/* Botón de Cerrar Sesión */}
+        <div className="dashboard-logout">
+          <button onClick={handleLogout} className="btn btn--logout">
+            <span className="btn-icon">🚪</span>
+            Salir del corral
           </button>
         </div>
       </div>
     </div>
   )
 }
-

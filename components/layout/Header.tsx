@@ -51,42 +51,69 @@ export default function Header() {
         </Link>
         <ul className={`nav__menu ${isMenuOpen ? 'show' : ''}`} id="nav-menu">
           <li className="nav__item">
-            <Link href="/#inicio" className={`nav__link ${isActive('/') ? 'active' : ''}`}>
+            <Link href="/#inicio" className={`nav__link ${isActive('/') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
               Inicio
             </Link>
           </li>
-          <li className="nav__item">
-            <Link href="/#historia" className="nav__link">
-              Nuestra Historia
-            </Link>
-          </li>
-          <li className="nav__item">
-            <Link href="/#fase2" className="nav__link">
-              Fase 2
-            </Link>
-          </li>
-          <li className="nav__item">
-            <Link href="/#educacion" className="nav__link">
-              Educación
-            </Link>
-          </li>
-          <li className="nav__item">
-            <Link href="/#reconocimientos" className="nav__link">
-              Reconocimientos
-            </Link>
-          </li>
-          <li className="nav__item">
-            <Link href="/#contacto" className="nav__link">
-              Contacto
-            </Link>
-          </li>
+          {isLoggedIn ? (
+            <>
+              <li className="nav__item">
+                <Link href="/dashboard" className={`nav__link ${isActive('/dashboard') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                  <span className="nav__icon">📚</span> Clases
+                </Link>
+              </li>
+              <li className="nav__item">
+                <Link href="/dashboard" className="nav__link" onClick={() => setIsMenuOpen(false)}>
+                  <span className="nav__icon">🎯</span> Retos
+                </Link>
+              </li>
+              <li className="nav__item">
+                <Link href="/dashboard" className="nav__link" onClick={() => setIsMenuOpen(false)}>
+                  <span className="nav__icon">👥</span> Comunidad
+                </Link>
+              </li>
+              <li className="nav__item">
+                <Link href="/dashboard" className={`nav__link ${isActive('/dashboard') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                  <span className="nav__icon">🐔</span> Mi Panel
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav__item">
+                <Link href="/#historia" className="nav__link" onClick={() => setIsMenuOpen(false)}>
+                  Nuestra Historia
+                </Link>
+              </li>
+              <li className="nav__item">
+                <Link href="/#fase2" className="nav__link" onClick={() => setIsMenuOpen(false)}>
+                  Fase 2
+                </Link>
+              </li>
+              <li className="nav__item">
+                <Link href="/#educacion" className="nav__link" onClick={() => setIsMenuOpen(false)}>
+                  Educación
+                </Link>
+              </li>
+              <li className="nav__item">
+                <Link href="/#reconocimientos" className="nav__link" onClick={() => setIsMenuOpen(false)}>
+                  Reconocimientos
+                </Link>
+              </li>
+              <li className="nav__item">
+                <Link href="/#contacto" className="nav__link" onClick={() => setIsMenuOpen(false)}>
+                  Contacto
+                </Link>
+              </li>
+            </>
+          )}
           <li className="nav__item">
             {isLoggedIn ? (
-              <Link href="/dashboard" className="nav__link">
+              <Link href="/dashboard" className="nav__link" onClick={() => setIsMenuOpen(false)}>
                 Dashboard
               </Link>
             ) : (
-              <Link href="/login" className="btn btn--primary nav__login">
+              <Link href="/login" className="btn btn--primary nav__login" onClick={() => setIsMenuOpen(false)}>
                 Entrar
               </Link>
             )}
