@@ -3,43 +3,81 @@
 import { useState, useEffect } from 'react'
 import { createSupabaseClient } from '@/lib/supabase'
 
-interface MiCantoDiarioProps {
-  userId: string
+interface Canto {
+  id: string
+  canto_texto: string
+  fecha: string
 }
 
-export default function MiCantoDiario({ userId }: MiCantoDiarioProps) {
+export default function MiCantoDiario({ userId }: { userId: string }) {
   const [canto, setCanto] = useState('')
+  const [cantosAnteriores, setCantosAnteriores] = useState<Canto[]>([])
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [loading, setLoading] = useState(true)
   const supabase = createSupabaseClient()
 
-  // Cargar canto guardado al montar el componente
+  // Cargar cantos anteriores al montar el componente
   useEffect(() => {
-    const loadCanto = async () => {
-      // Por ahora, guardamos en localStorage
-      // En el futuro, se puede migrar a Supabase
-      const savedCanto = localStorage.getItem(`canto_${userId}`)
-      if (savedCanto) {
-        setCanto(savedCanto)
-      }
-    }
-    loadCanto()
+    loadCantos()
   }, [userId])
 
+  const loadCantos = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('cantos_diarios')
+        .select('*')
+        .eq('user_id', userId)
+        .order('fecha', { ascending: false })
+        .limit(10)
+
+      if (error) {
+        console.error('Error cargando cantos:', error)
+      } else {
+        setCantosAnteriores(data || [])
+      }
+    } catch (error) {
+      console.error('Error:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleSave = async () => {
+    if (!canto.trim()) {
+      alert('Por favor escribe algo antes de guardar')
+      return
+    }
+
     setSaving(true)
-    
-    // Guardar en localStorage por ahora
-    // En el futuro, se puede guardar en Supabase
-    localStorage.setItem(`canto_${userId}`, canto)
-    
-    setSaving(false)
-    setSaved(true)
-    
-    // Ocultar mensaje de guardado después de 2 segundos
-    setTimeout(() => {
-      setSaved(false)
-    }, 2000)
+
+    try {
+      const { error } = await supabase
+        .from('cantos_diarios')
+        .insert({
+          user_id: userId,
+          canto_texto: canto
+        })
+
+      if (error) {
+        console.error('Error guardando canto:', error)
+        alert('Error al guardar el canto')
+      } else {
+        setCanto('')
+        setSaved(true)
+        loadCantos()
+
+        // Ocultar mensaje de guardado después de 2 segundos
+        setTimeout(() => {
+          setSaved(false)
+        }, 2000)
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      alert('Error al guardar el canto')
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -66,7 +104,7 @@ export default function MiCantoDiario({ userId }: MiCantoDiarioProps) {
             <button
               onClick={handleSave}
               className="btn btn--save"
-              disabled={saving}
+              disabled={saving || !canto.trim()}
             >
               {saving ? (
                 <>
@@ -86,12 +124,37 @@ export default function MiCantoDiario({ userId }: MiCantoDiarioProps) {
               )}
             </button>
             <p className="canto-hint">
-              Tu canto se guarda automáticamente. Comparte tus pensamientos, aprendizajes o motivaciones del día.
+              Tu canto se guarda en el corral. Comparte tus pensamientos, aprendizajes o motivaciones del día.
             </p>
           </div>
         </div>
+
+        {/* Cantos Anteriores */}
+        {!loading && cantosAnteriores.length > 0 && (
+          <div className="cantos-anteriores">
+            <h3 className="cantos-anteriores-title">Cantos anteriores</h3>
+            <div className="cantos-list">
+              {cantosAnteriores.map((cantoAnterior) => (
+                <div key={cantoAnterior.id} className="canto-item">
+                  <div className="canto-item-header">
+                    <span className="canto-item-icon">🎵</span>
+                    <span className="canto-item-fecha">
+                      {new Date(cantoAnterior.fecha).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </span>
+                  </div>
+                  <p className="canto-item-texto">{cantoAnterior.canto_texto}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
 }
-
