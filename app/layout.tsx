@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/react'
+import AdSense from '@/components/ads/AdSense'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,13 +24,9 @@ export default function RootLayout({
     <html lang="es">
       <head>
         <link rel="canonical" href="https://cocoin-web.vercel.app/" />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4297167192050875"
-          crossOrigin="anonymous"
-        />
       </head>
       <body className={inter.className}>
+        <AdSense />
         {children}
         <Analytics />
       </body>
