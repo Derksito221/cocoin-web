@@ -181,6 +181,16 @@ CREATE TABLE IF NOT EXISTS clases (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Asegurar columnas requeridas en setups previos
+ALTER TABLE clases
+  ADD COLUMN IF NOT EXISTS titulo TEXT NOT NULL DEFAULT 'Clase COCOIN',
+  ADD COLUMN IF NOT EXISTS contenido TEXT NOT NULL DEFAULT 'Contenido próximamente disponible',
+  ADD COLUMN IF NOT EXISTS fecha TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  ADD COLUMN IF NOT EXISTS usuario_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  ADD COLUMN IF NOT EXISTS activa BOOLEAN DEFAULT true,
+  ADD COLUMN IF NOT EXISTS orden INTEGER DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
+
 -- Índices
 CREATE INDEX IF NOT EXISTS idx_clases_activa ON clases(activa);
 CREATE INDEX IF NOT EXISTS idx_clases_orden ON clases(orden);

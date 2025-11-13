@@ -44,6 +44,7 @@ Antes de comenzar, asegúrate de tener:
 3. **Pégalo en el SQL Editor** de Supabase
 4. **Haz clic en "Run"** o presiona `Ctrl+Enter` (Windows) / `Cmd+Enter` (Mac)
 5. **Espera a que termine** (puede tardar unos segundos)
+6. El script detecta tablas existentes y **agrega automáticamente columnas faltantes**
 
 ### Paso 3: Verificar la Ejecución
 
